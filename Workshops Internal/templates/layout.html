@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<title>{{ title }} - Workshops Application</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/app.css') }}">
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top ">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">
+			Workshop App
+			{% if session_user_name %}
+			Hello <b>{{ session_user_name }}</b>
+			{% endif %}
+		</a>
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+				<li class="nav-item"><a class="nav-link" href="{{ url_for('workshops') }}">Workshops</a></li>
+				<li class="nav-item"><a class="nav-link" href="{{ url_for('users') }}">Users</a></li>
+				{% if not session_user_name %}
+				<li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+				<li class="nav-item"><a class="nav-link" href="{{ url_for('new_user') }}">Register</a></li>
+				{% endif %}
+
+				{% if session_user_name %}
+				<li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+	<!--<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Workshop Manager</a>
+				{% if session_user_name %}
+				<a class="navbar-brand" href="#">Hello {{ session_user_name }}</a>
+				{% endif %}
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+				{% if session_user_name %}
+				<li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
+				<li class="nav-item"><a href="/add_user" class="nav-link">Add New</a></li>
+				<li class="nav-item"><a href="/users" class="nav-link">Users</a></li>
+				<li class="nav-item"><a href="/profiles" class="nav-link">Profiles</a></li>
+				<li class="nav-item"><a href="/workshops" class="nav-link">Workshops</a></li>
+				{% endif %}
+				{% if not session_user_name %}
+				<li class="nav-item">
+					<a href="{{ url_for('login') }}" class="nav-link">Login</a>
+				</li>
+				{% endif %}
+			</ul>
+
+		</div>
+	</nav>-->
+
+	<div class="container-fluid m-0 p-0">
+		{% block content %}{% endblock %}
+
+
+		<!-- Footer -->
+
+		<footer class="footer-area">
+			<div class="container">
+				<div class="row">
+
+
+
+
+					<div class="col-lg-12">
+						<div class="copyright-area">
+							<div class="logo">
+								<a href="index-3.html">
+									<img src="static/images/logo.png" alt="logo">
+								</a>
+							</div>
+							<ul>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">Workshops</a></li>
+							</ul>
+							<p><i class="icofont-copyright"></i> 2019, All rights reserved</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="/static/js/owl.carousel.min.js"></script> {% block scripts %}
+
+	{% endblock %}
+</body>
+</html>

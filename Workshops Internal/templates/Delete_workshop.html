@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/app.css') }}">
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">School Manager</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container portfolio">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="heading">
+					<img src="https://image.ibb.co/cbCMvA/logo.png" />
+				</div>
+			</div>
+		</div>
+		<div class="bio-info">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="bio-image">
+								<img src="https://image.ibb.co/f5Kehq/bio-image.jpg" alt="image" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="bio-content">
+						<h1>{{data['Title']}} {{data['Room']}}</h1>
+						<h6></h6>
+						<p>
+							<i class="glyphicon glyphicon-envelope"></i>{{data['Subject']}}
+							<br />
+							<i class="glyphicon glyphicon-gift"></i>{{data['Date']}}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<h2>Are you Sure you want to Delete?</h2><hr />
+		<!-- Split button -->
+		<div class="btn-group">
+			<form action="/delete_workshop?id={{data['WorkshopID']}}" method="post" class="needs-validation" novalidate>
+				<input type="hidden" name="Id" id="Id" value="{{data['WorkshopID']}}" />
+				<button type="submit" class="btn btn-danger">Delete</button> <a href="/" class="btn btn-info">Cancel</a>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

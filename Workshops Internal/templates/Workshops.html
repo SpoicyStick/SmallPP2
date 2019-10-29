@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>DB Connected</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/app.css') }}">
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Workshop App</a>
+			</div>
+			<ul class="nav navbar-nav">
+				{% if session_user_name %}
+				<li class="nav-item">
+
+					Hello <b>{{ session_user_name }}</b>
+				</li>
+				<li class="nav-item">
+					<a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+				</li>{% endif %}
+				<li class="nav-item active"><a href="{{ url_for('home') }}" class="nav-link">Exit</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">All Workshops</h1>
+		<a href="/add_workshop" class="btn btn-primary btn-sm">Add New Workshop</a>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>WorkshopID</th>
+					<th>Title</th>
+					<th>Date</th>
+					<th>Room</th>
+					<th>Subject</th>
+					<th>Teacher</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for row in results %}
+				<tr>
+					<td>{{ row.WorkshopID}}</td>
+					<td>{{ row.Title }}</td>
+					<td>{{ row.Date }}</td>
+					<td>{{ row.Room }}</td>
+					<td>{{ row.Subject }}</td>
+					<td>{{ row.Teacher }}</td>
+					{% if session_role == 1%}
+					<td><a href="/edit_workshop?id={{row.WorkshopID}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"></span>Edit</a> <a href="/delete_workshop?id={{row.WorkshopID}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span>Del</a></td>
+
+					{% elif session_role == 2%}
+					<p>Role 2 Teacher</p>
+					<td><a href="/edit_workshop?id={{row.WorkshopID}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"></span>Edit</a></td>
+
+					{%else%}
+					{%set ns = namespace(found=False)%}
+					{%for enroll in enrolled%}
+					{%if enroll.WorkshopID == row.WorkshopID and enroll.UserID == user_id%}
+					{%set ns.found= True%}
+					<p> Role 3 Student</p>
+					<td><a href="/disenrol?wid={{row.WorkshopID}}" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-edit"></span>Unenrol</a></td>
+					{%elif loop.last and not ns.found%}
+					<td><a href="/enrol?wid={{row.WorkshopID}}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-edit"></span>Enrol</a></td>
+					{%endif%}
+					{%endfor%}
+					{%endif%}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
